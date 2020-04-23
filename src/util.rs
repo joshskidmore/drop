@@ -24,7 +24,7 @@ pub fn wait_delay(config: &DropConfig) {
 
 pub fn create_drop_url(config: &DropConfig, filename: String) -> String {
   match config.host.clone() {
-    Some(host) => format!("http://{}/{}", host, filename),
+    Some(host) => format!("https://{}/{}", host, filename),
     None => format!("http://s3.amazonaws.com/{}/{}", config.aws_bucket.clone().unwrap(), filename)
   }
 }
@@ -104,7 +104,7 @@ fn log_child_output_to_stdout(child: &mut Child, name: &str) {
   let name_err = name.to_owned();
   let mut stdout = child.stdout.take();
   let mut stderr = child.stderr.take();
-  
+
   thread::spawn(move || {
     if let Some(ref mut stdout) = stdout {
       for line in BufReader::new(stdout).lines() {
